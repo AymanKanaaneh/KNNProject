@@ -1,22 +1,28 @@
 const express = require('express');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 const studentsRoutes = require('./routes/students');
 const coursesroutes = require('./routes/courses');
 const path = require('path');
 
+mongoose.connect('mongodb+srv://cluster0.ti9v3.mongodb.net?retryWrites=true&w=majority', {
+    user: 'demouser',
+    pass: 'demopassword',
+    dbName: 'demo',
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
 /*mongoose.connect('mongodb://localhost:27017/', {
 	user: 'root',
-	pass: 'example',
-	dbName: 'demodb',
+	pass: 'hellowolrd',
+	dbName: 'demo',
 	useCreateIndex: true,
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });*/
-
-
-
 
 app.use(express.json());
 
