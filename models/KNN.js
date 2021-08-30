@@ -1,3 +1,12 @@
+/*
+const {MongoClient} = require('mongodb');
+const constants = require("constants");
+const DB = "StudentsGrades"
+const TABLE = "Grades"
+const URI = "mongodb+srv://demo:helloworld@cluster0.u3osq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(URI);
+*/
+
 const a = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] // sample data -> a should be the list of students in the database
 const b = [3, 4, 5] // sample student -> b should be the student's data that comes from the user-side
 /**
@@ -10,11 +19,11 @@ const b = [3, 4, 5] // sample student -> b should be the student's data that com
  */
 function KNN(data, new_student, k = 2) {
     let distances = [] // empty array of distances
-    for (let student = 0; student < data.length; student++) {
-        let d = distance(data[student], new_student)
-        distances[student] = [d, student] // add (x,y) where x is the distance and y is the student number/id
-    }
-    distances.sort() // sort
+    data.forEach(student =>{
+        distances.push([distance(student, new_student), student["_id"]]) // add (x,y) where x is the distance and y is the student number/id
+    });
+
+    distances.sort(function (a,b){return a[0] - b[0];}) // sort by first value (distance)
     return distances.slice(0, k) // returns k best students
 }
 
@@ -33,7 +42,27 @@ function distance(a, b) {
 }
 /*
 function main() { // simple just to check it works fine, as it is :)
-    console.log(KNN(a, b, 3))
+    firstTry();
 }
+async function firstTry() {
+    try {
+        console.log("HELLO")
+        await client.connect();
+        const cursor = await client.db(DB).collection(TABLE).find({PHP: {$gt: 50}}).toArray()
+        await console.log("Student id " + KNN2(cursor, {
+            _id: -1,  PHP: 70,
+            JavaScript: 55,
+            Java: 32,
+            SQL: 26,
+            Jquery: 57,
+            DotNet: 93
+        }, 50)[0][1] + " is the best match!")
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await client.close();
+    }
+}
+
 
 main()*/
