@@ -29,15 +29,16 @@ function KNN(data, new_student, k = 1) {
 
 /**
  * distance function, "straightforward", that to say Pitagoras in N dimintions (=or "euclidean distance")
- * @param a first number (as array)
- * @param b second number (as array)
- * @returns {number} float that is the distance between a to b
+ * !!!NOTE: new_student MUST BE THE ARGUMENT IN FOR() since new_studnet has at least one less subject than the data_member!!!
+ * @param data_member first number (as array)
+ * @param new_student second number (as array)
+ * @returns {number} float that is the distance between data_member to new_student
  */
-function distance(a, b) {
+function distance(data_member, new_student) {
     let sum = 0
-    for (const val in a) {
+    for (const val in new_student) {
         if(val !== "_id")
-            sum += ((b[val] - a[val]) * (b[val] - a[val]))
+            sum += ((data_member[val] - new_student[val]) * (data_member[val] - new_student[val]))
     }
     return Math.sqrt(sum)
 }
