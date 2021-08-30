@@ -36,7 +36,7 @@ function KNN(data, new_student, k = 1) {
 function distance(a, b) {
     let sum = 0
     for (const val in a) {
-        if(val != "_id")
+        if(val !== "_id")
             sum += ((b[val] - a[val]) * (b[val] - a[val]))
     }
     return Math.sqrt(sum)
