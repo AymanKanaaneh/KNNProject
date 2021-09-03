@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const studentsRoutes = require('./routes/students');
 const coursesroutes = require('./routes/courses');
+const enrollmentsRoutes = require('./routes/enrollments');
 const path = require('path');
 
 mongoose.connect('mongodb+srv://cluster0.ti9v3.mongodb.net?retryWrites=true&w=majority', {
@@ -30,6 +31,11 @@ app.use('/assets', express.static('static-assets'));
 
 app.use('/api/course', coursesroutes);
 app.use('/api/student', studentsRoutes);
+app.use('/api/enrollment', enrollmentsRoutes);
+
+
+
+app.get('/api/KNN', (req, res) => res.sendFile(path.join(__dirname, './models/KNN.JS')));
 
 /*app.use('http', (res, req) => {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
