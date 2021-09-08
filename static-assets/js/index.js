@@ -1,3 +1,6 @@
+import { KNN, predicted_grade, sigma, distance } from '/assets/js/KNN.js';
+
+
 $(window).load(async function() {
 
 
@@ -9,6 +12,7 @@ $(window).load(async function() {
     var newStudentSample;
     var coursesTaken;
     var KNNData;
+    var KNNResult;
 
 
 
@@ -19,16 +23,33 @@ $(window).load(async function() {
     $('#btnPredict').click(async function() {
 
         multipleCourses = $('#multiple-checkboxes').val();
-
-
-        KNNData = await createKNNData(allGrades);
-        newStudentSample = createStudent(multipleCourses);
         predictCourse = $('.predictCourse').val();
 
-        //KNN algorthim
+        if (predictCourse && multipleCourses) {
 
 
+            if (!checkCourseTaken(multipleCourses, predictCourse)) {
 
+                KNNData = await createKNNData(allGrades);
+                newStudentSample = createStudent(multipleCourses);
+
+
+                //KNNResult = KNN(KNNData, newStudentSample, predictCourse);
+
+                //console.log(KNNData);
+
+                //console.log(multipleCourses);
+                //console.log(predictCourse);
+
+                console.log(newStudentSample);
+                console.log(predictCourse);
+            } else {
+                alert("This predict course already exist in previous courses");
+            }
+
+        } else {
+            alert('You should choose which course you want to predict and your previous courses');
+        }
     });
 
 
@@ -42,8 +63,8 @@ $(window).load(async function() {
 
     function createStudent(courses) {
 
-        newStudent = [];
-        coursesTaken = {};
+        var newStudent = [];
+        var coursesTaken = {};
         courses.forEach(course => {
             let text;
             let grade = prompt("Please enter your grage in " + course);
@@ -63,13 +84,13 @@ $(window).load(async function() {
 
     async function createKNNData(allGrades) {
 
-        studentsId = getStudentId();
+        var studentsId = getStudentId();
         var pureStudentGradesArr = [];
         var pureStudentGradesObj;
 
         studentsId.forEach(async function(sId) {
 
-            studentGrades = await fetch('/api/student/' + sId['_id'] + '/enroll').then(response => response.json());
+            var studentGrades = await fetch('/api/student/' + sId['_id'] + '/enroll').then(response => response.json());
             pureStudentGradesObj = {};
             pureStudentGradesObj['_id'] = sId['_id'];
             studentGrades.forEach(SG => {
@@ -94,6 +115,19 @@ $(window).load(async function() {
         });
         return studentsId;
 
+    }
+
+
+    function checkCourseTaken(multipleCourses, predictCourse) {
+
+        var checkResult = false;
+        multipleCourses.forEach(c => {
+            if (c === predictCourse) {
+                checkResult = true;
+            }
+        });
+
+        return checkResult;
     }
 
 });

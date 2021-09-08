@@ -6,7 +6,7 @@
  * @param k number of closest students
  * @returns predicted grade as an integer
  */
-async function KNN(data, new_student, subject, k = 5) {
+function KNN(data, new_student, subject, k = 5) {
     let distances = [] // an empty array of distances
 
     data.forEach(student => {
@@ -58,6 +58,7 @@ function predicted_grade(distances, subject) {
  * @returns sigma
  */
 function sigma(n) {
+    console.log(n);
     if (n === 1)
         return 1
     return n + sigma(n - 1)
@@ -85,3 +86,5 @@ function distance(data_member, new_student, sub) {
     }
     return [Math.sqrt(sum), data_member[sub]] // sqrt(sum), subject as in data_member's
 }
+
+export { KNN, predicted_grade, sigma, distance }
