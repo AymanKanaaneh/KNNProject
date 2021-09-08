@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 const EnrollmentSchema = new mongoose.Schema({
-    _id: { type: Number, required: true },
-    PHP: { type: Number, min: 0, max: 100 },
-    JavaScript: { type: Number, min: 0, max: 100 },
-    Java: { type: Number, min: 0, max: 100 },
-    SQL: { type: Number, min: 0, max: 100 },
-    Jquery: { type: Number, min: 0, max: 100 },
-    DotNet: { type: Number, min: 0, max: 100 }
+    student: { type: mongoose.SchemaTypes.String, ref: 'Student', required: true },
+    course: { type: mongoose.SchemaTypes.String, ref: 'Course', required: true },
+    grade: { type: Number, min: 0, max: 100 }
 });
-
+EnrollmentSchema.index({ student: 1, course: 1 }, { unique: true });
 module.exports = mongoose.model('Enrollment', EnrollmentSchema);

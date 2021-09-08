@@ -63,8 +63,8 @@ router.get('/:studentId/enroll', async(req, res) => {
     if (!student) {
         return res.sendStatus(400);
     }
-    const enrollments = await Enrollments.find({ student: student }, 'course')
-        .populate('course', ['name', 'points']);
+    const enrollments = await Enrollments.find({ student: student }, ['student', 'course', 'grade'])
+        .populate('student,course', '_id');
     res.send(enrollments);
 });
 

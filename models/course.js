@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const CourseSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    _id: { type: String }, // id by course name
     points: { type: Number, required: true },
     semester: { type: String, enum: ['A', 'B'] }
 });
