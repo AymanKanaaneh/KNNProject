@@ -4,25 +4,31 @@ import { KNN, predicted_grade, sigma, distance } from '/assets/js/KNN.js';
 $(window).load(async function() {
 
 
-    var predictCourse;
-    var multipleCourses;
+    var predictCourse; //this course what the student want to predict it's gade
+    var multipleCourses; //json list of previous student's courses with his grades
+
+    //all courses in the system from mongoDb
     var allCourses = await fetch('/api/course').then(response => response.json());
+    //all students in the system from mongoDb
     var allStudents = await fetch('/api/student').then(response => response.json());
+    //all grades in the system from mongoDb
     var allGrades = await fetch('/api/enrollment').then(response => response.json());
-    var newStudentSample;
-    var coursesTaken;
-    var KNNData;
-    var KNNResult;
+    var newStudentSample; //student sample to KNN paramter algorthim
+    var coursesTaken; //student selected taken courses from user interface application
+    var KNNData; //list of json that each element is student with his courses and it's grades
+    var KNNResult; //the result grade of KNN allgrorthim
 
 
 
 
-    fillCourses();
+    fillCourses(); //fill the select box with courses from mongoDb
     $('#multiple-checkboxes').multiselect();
 
     $('#btnPredict').click(async function() {
 
+        //student selected previous courses
         multipleCourses = $('#multiple-checkboxes').val();
+        //student selected predict course grade he is want
         predictCourse = $('.predictCourse').val();
 
         if (predictCourse && multipleCourses) {
@@ -61,6 +67,7 @@ $(window).load(async function() {
 
     }
 
+    //create student sample with appropriate form to knn algorithm
     function createStudent(courses) {
 
         var newStudent = [];
@@ -82,6 +89,7 @@ $(window).load(async function() {
     }
 
 
+    //create the data with appropriate form to knn algorithm
     async function createKNNData(allGrades) {
 
         var studentsId = getStudentId();
@@ -118,6 +126,7 @@ $(window).load(async function() {
     }
 
 
+    //Check if the student has chosen a predictive course that he has already enrolled in
     function checkCourseTaken(multipleCourses, predictCourse) {
 
         var checkResult = false;

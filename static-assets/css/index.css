@@ -11,6 +11,16 @@ body {
     border: 5px solid Silver;
 }
 
+.pGrade {
+    color: #0004f67a;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 100px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+
 #divSelectCourses {
     display: flex;
     justify-content: center;
