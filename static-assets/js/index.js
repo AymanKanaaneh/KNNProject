@@ -3,6 +3,7 @@ import { KNN, predicted_grade, sigma, distance } from '/assets/js/KNN.js';
 
 $(window).load(async function() {
 
+    //addData();
 
     var predictCourse; //this course what the student want to predict it's gade
     var multipleCourses; //json list of previous student's courses with his grades
@@ -40,15 +41,17 @@ $(window).load(async function() {
                 newStudentSample = createStudent(multipleCourses);
 
 
-                //KNNResult = KNN(KNNData, newStudentSample, predictCourse);
 
-                //console.log(KNNData);
+                KNNResult = KNN(KNNData, newStudentSample, predictCourse);
+
 
                 //console.log(multipleCourses);
                 //console.log(predictCourse);
 
-                console.log(newStudentSample);
-                console.log(predictCourse);
+                //console.log(KNNData);
+                console.log(KNNResult);
+                //console.log(newStudentSample);
+                //console.log(predictCourse);
             } else {
                 alert("This predict course already exist in previous courses");
             }
@@ -70,46 +73,58 @@ $(window).load(async function() {
     //create student sample with appropriate form to knn algorithm
     function createStudent(courses) {
 
-        var newStudent = [];
+        //var newStudent = [];
         var coursesTaken = {};
         courses.forEach(course => {
-            let text;
-            let grade = prompt("Please enter your grage in " + course);
-            if (grade == null || grade == "") {
-                text = "User cancelled the prompt.";
-            } else {
-                text = grade;
-                coursesTaken[course] = grade;
-            }
+            //let text;
+            let grade = prompt("Please enter your grade in " + course);
+            while (grade === null || grade === "" || grade < 0 || grade > 100) { // forces user enter a grade
+                grade = prompt("Something went wrong, please try again to enter your grage in " + course);
+                //text = "User cancelled the prompt.";
+            } //else {
+            //text = grade;
+            coursesTaken[course] = grade;
+            //}
             //document.getElementById("demo").innerHTML = text;
         });
 
-        newStudent.push(coursesTaken);
-        return newStudent;
+        //newStudent.push(coursesTaken);
+        //return newStudent;
+        return JSON.parse(JSON.stringify(coursesTaken)) // it is just an object (json) with corses + grades
     }
+
 
 
     //create the data with appropriate form to knn algorithm
     async function createKNNData(allGrades) {
 
         var studentsId = getStudentId();
-        var pureStudentGradesArr = [];
-        var pureStudentGradesObj;
+        const pureStudentGradesArr = [];
+        var pureStudentGradesObj = {};
+        var studentGrades;
 
-        studentsId.forEach(async function(sId) {
+        for (let i = 0; i < studentsId.length; i++) {
 
-            var studentGrades = await fetch('/api/student/' + sId['_id'] + '/enroll').then(response => response.json());
+            console.log(studentsId[i]['_id'] + " for");
+
+
+            studentGrades = await fetch('/api/student/' + studentsId[i]['_id'] + '/enroll').then(response => response.json());
             pureStudentGradesObj = {};
-            pureStudentGradesObj['_id'] = sId['_id'];
-            studentGrades.forEach(SG => {
-                pureStudentGradesObj[SG['course']] = SG['grade'];
-            });
 
-            if (Object.keys(pureStudentGradesObj).length > 1) {
-                pureStudentGradesArr.push(pureStudentGradesObj);
+            pureStudentGradesObj['_id'] = studentsId[i]['_id'];
+
+            for (let j = 0; j < studentGrades.length; j++) {
+                pureStudentGradesObj[studentGrades[j]['course']] = studentGrades[j]['grade'];
             }
 
-        });
+            if (Object.keys(pureStudentGradesObj).length > 1) {
+                pureStudentGradesArr.push(JSON.parse(JSON.stringify(pureStudentGradesObj)));
+                pureStudentGradesObj = null;
+            }
+
+            studentGrades = null;
+
+        }
 
         return pureStudentGradesArr;
 
@@ -118,8 +133,8 @@ $(window).load(async function() {
     function getStudentId() {
 
         var studentsId = [];
-        allStudents.forEach(g => {
-            studentsId.push({ '_id': g['_id'] });
+        allStudents.forEach(s => {
+            studentsId.push({ '_id': s['_id'] });
         });
         return studentsId;
 
@@ -137,6 +152,76 @@ $(window).load(async function() {
         });
 
         return checkResult;
+    }
+
+    async function addData() {
+        addCoursesData();
+        addStudentData();
+        addgradesData();
+    }
+
+    async function addCoursesData() {
+
+        var coursesData = await fetch('/assets/js/coursesData.json').then(response => response.json());
+        var options;
+
+        coursesData.forEach(async function(c) {
+
+            options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(c)
+            };
+
+            await fetch("/api/course", options);
+        });
+
+    }
+
+    async function addStudentData() {
+
+        var studentsData = await fetch('/assets/js/studentsData.json').then(response => response.json());
+        var options;
+
+        studentsData.forEach(async function(s) {
+
+            options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(s)
+            };
+
+            await fetch("/api/student", options);
+        });
+
+    }
+
+    async function addgradesData() {
+
+        var gradesData = await fetch('/assets/js/gradesData.json').then(response => response.json());
+        var options;
+
+        for (var course in gradesData) {
+
+            gradesData[course].forEach(async function(grade) {
+
+                options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(grade)
+                };
+
+                await fetch("/api/enrollment", options);
+            })
+        }
+
+
     }
 
 });

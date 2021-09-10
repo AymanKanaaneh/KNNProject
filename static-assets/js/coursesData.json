@@ -1,0 +1,277 @@
+[
+    {
+	"_id": "JAVA",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "CPP",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Csharp",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "C",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Android",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Algorithms",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Calculus",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Calculus2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Algebra",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Algebra2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "DotNet",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Python",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Modern Algebra",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Descrete",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Advanced CPP",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Algorithms 2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Signal Processing",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Cryptology",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Logic",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "AdvancedLogic",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Physics",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Physics 2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Assembly",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Sifrutiot",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Matam",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Atam",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Linux",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Javascript",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "HTML",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Operatin Systems",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Network Programming",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Image Processing",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Data Structs",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Runtime",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Automats",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Cyber",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Hacking",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Fast Networks",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Routing Systems",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Advanced Cryptology",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Fullstack",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Encryption",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Encryption 2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Network 2",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Image Processing 2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Data Structs 2",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Runtime 2",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Advanced Cybersecurity",
+    "points": "3.5",
+    "semester": "A"
+	},
+	{
+	"_id": "Abstract Programing",
+    "points": "3.5",
+    "semester": "B"
+	},
+	
+	{
+	"_id": "Hardware Dev",
+    "points": "3.5",
+    "semester": "A"
+	}
+	
+]

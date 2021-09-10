@@ -1,3 +1,10 @@
+// fields
+const { MongoClient } = require('mongodb'); // driver
+const DB = "StudentsGrades"; // database name (SQL: using StudentsGrades)
+const TABLE = "Grades"; // table name
+const URI = "mongodb+srv://demo:helloworld@cluster0.u3osq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(URI); // client
+
 /**
  * KNN algo runs over ALL data, and returns k (in our case k = 5) students that has the closest grades to the "our" student
  * @param data data is the list of students grades in courses
@@ -6,8 +13,9 @@
  * @param k number of closest students
  * @returns predicted grade as an integer
  */
-function KNN(data, new_student, subject, k = 5) {
+async function KNN(data, new_student, subject, k = 5) {
     let distances = [] // an empty array of distances
+        //const data = await getData() // data is the list of students in the database
 
     data.forEach(student => {
         distances.push([distance(student, new_student, subject), student["_id"]])
@@ -20,6 +28,16 @@ function KNN(data, new_student, subject, k = 5) {
     return predicted_grade(distances.slice(0, k), subject) // returns the student's predicted grade
 }
 
+/**
+ * grab all data from database, where SQL is "SELECT * FROM TABLE" (TABLE = "grades")
+ * @returns data as an array
+ */
+async function getData() {
+    await client.connect();
+    const cursor = await client.db(DB).collection(TABLE).find({}).toArray() // select * from table
+    await client.close()
+    return cursor; // data[0] = {} , data[1] = {} , ...
+}
 
 /**
  * calculates the weighted average grade of k-closest students
@@ -30,23 +48,23 @@ function KNN(data, new_student, subject, k = 5) {
 function predicted_grade(distances, subject) {
     let sum = 0
     for (let i = distances.length; i > 0; i--) {
-        //console.log("sum" + sum)
-        /*
-            data -> Json.
-            data -> {{},{},{}}
-            {} -> _id, PHP, ...
-            distances[1] = _id as integer
-            distances-i =
-         */
-        /*
-            [
-                  [ [ 0, 34 ], 12 ],
-                  [ [ 29.5296461204668, 1 ], 30 ],
-                  [ [ 56.37375275782161, 34 ], 27 ],
-                  [ [ 57.367238037053866, 13 ], 41 ],
-                  [ [ 58.68560300448484, 78 ], 7 ]
-            ]
-         */
+        console.log("sum" + sum)
+            /*
+                data -> Json.
+                data -> {{},{},{}}
+                {} -> _id, PHP, ...
+                distances[1] = _id as integer
+                distances-i =
+             */
+            /*
+                [
+                      [ [ 0, 34 ], 12 ],
+                      [ [ 29.5296461204668, 1 ], 30 ],
+                      [ [ 56.37375275782161, 34 ], 27 ],
+                      [ [ 57.367238037053866, 13 ], 41 ],
+                      [ [ 58.68560300448484, 78 ], 7 ]
+                ]
+             */
         sum += i * distances[distances.length - i][0][1] // i == weight; distances[distances.length - i][0][1] == grade
     }
     return sum / sigma(distances.length) // ( k * grade(1) + ... + 1 * grade(k) ) / ( sigma(k) )
@@ -58,7 +76,6 @@ function predicted_grade(distances, subject) {
  * @returns sigma
  */
 function sigma(n) {
-    //console.log(n);
     if (n === 1)
         return 1
     return n + sigma(n - 1)
@@ -86,5 +103,3 @@ function distance(data_member, new_student, sub) {
     }
     return [Math.sqrt(sum), data_member[sub]] // sqrt(sum), subject as in data_member's
 }
-
-export { KNN, predicted_grade, sigma, distance }
