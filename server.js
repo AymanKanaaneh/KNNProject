@@ -32,6 +32,9 @@ app.use('/api/course', coursesroutes);
 app.use('/api/student', studentsRoutes);
 app.use('/api/enrollment', enrollmentsRoutes);
 
+app.get('/api/studentProfile/', (req, res) => res.sendFile(path.join(__dirname, '/static-assets/pages/studentGrades.html')));
+
+
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/index.html')));
 
