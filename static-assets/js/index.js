@@ -1,9 +1,9 @@
-import { KNN, predicted_grade, sigma, distance } from '/assets/js/KNN.js';
+import { KNN } from '/assets/js/KNN.js';
 
 
 $(window).load(async function() {
 
-    //addData();
+    await addData();
 
     var predictCourse; //this course what the student want to predict it's gade
     var multipleCourses; //json list of previous student's courses with his grades
@@ -13,7 +13,14 @@ $(window).load(async function() {
     //all students in the system from mongoDb
     var allStudents = await fetch('/api/student').then(response => response.json());
     //all grades in the system from mongoDb
-    var allGrades = await fetch('/api/enrollment').then(response => response.json());
+    //var allGrades = await fetch('/api/enrollment').then(response => response.json());
+
+    //all grades in the system from mongoDb it so big !!!!
+    //var allGrades = await fetch('/api/enrollment').then(response => response.json());
+
+    //all grades from json file, too large so we simulate that gradesData comes from mongoDb
+    var allGrades = await fetch('/assets/js/gradesData.json').then(response => response.json());
+
     var newStudentSample; //student sample to KNN paramter algorthim
     var coursesTaken; //student selected taken courses from user interface application
     var KNNData; //list of json that each element is student with his courses and it's grades
@@ -37,21 +44,14 @@ $(window).load(async function() {
 
             if (!checkCourseTaken(multipleCourses, predictCourse)) {
 
-                KNNData = await createKNNData(allGrades);
+                //KNNData = await createKNNData(allGrades);
+                KNNData = await fetch('/assets/js/KNNData.json').then(response => response.json());
                 newStudentSample = createStudent(multipleCourses);
 
 
 
                 KNNResult = KNN(KNNData, newStudentSample, predictCourse);
-
-
-                //console.log(multipleCourses);
-                //console.log(predictCourse);
-
-                //console.log(KNNData);
-                console.log(KNNResult);
-                //console.log(newStudentSample);
-                //console.log(predictCourse);
+                $('.pGrade')[0].innerHTML = KNNResult;
             } else {
                 alert("This predict course already exist in previous courses");
             }
@@ -78,18 +78,14 @@ $(window).load(async function() {
         courses.forEach(course => {
             //let text;
             let grade = prompt("Please enter your grade in " + course);
-            while (grade === null || grade === "" || grade < 0 || grade > 100) { // forces user enter a grade
+            while (isNaN(grade) || grade < 0 || grade > 100) { // forces user enter a grade
                 grade = prompt("Something went wrong, please try again to enter your grage in " + course);
-                //text = "User cancelled the prompt.";
-            } //else {
-            //text = grade;
+            }
             coursesTaken[course] = grade;
-            //}
-            //document.getElementById("demo").innerHTML = text;
         });
 
-        //newStudent.push(coursesTaken);
-        //return newStudent;
+
+
         return JSON.parse(JSON.stringify(coursesTaken)) // it is just an object (json) with corses + grades
     }
 
@@ -108,7 +104,9 @@ $(window).load(async function() {
             console.log(studentsId[i]['_id'] + " for");
 
 
-            studentGrades = await fetch('/api/student/' + studentsId[i]['_id'] + '/enroll').then(response => response.json());
+            //studentGrades = await fetch('/api/student/' + studentsId[i]['_id'] + '/enroll').then(response => response.json());
+            //studentGrades = allGrades['_id']
+
             pureStudentGradesObj = {};
 
             pureStudentGradesObj['_id'] = studentsId[i]['_id'];
@@ -155,9 +153,9 @@ $(window).load(async function() {
     }
 
     async function addData() {
-        addCoursesData();
-        addStudentData();
-        addgradesData();
+        //addCoursesData();
+        //addStudentData();
+        await addgradesData();
     }
 
     async function addCoursesData() {
@@ -203,25 +201,20 @@ $(window).load(async function() {
     async function addgradesData() {
 
         var gradesData = await fetch('/assets/js/gradesData.json').then(response => response.json());
-        var options;
 
-        for (var course in gradesData) {
+        //too large so we simulate that gradesData comes from mongoDb
+        /*var options;
 
-            gradesData[course].forEach(async function(grade) {
+        gradesData.forEach(async function(grade) {
+            options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(grade)
+            };
 
-                options = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(grade)
-                };
-
-                await fetch("/api/enrollment", options);
-            })
-        }
-
-
+            await fetch("/api/enrollment", options);
+        });*/
     }
-
 });
