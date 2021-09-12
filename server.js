@@ -35,7 +35,9 @@ app.use('/api/enrollment', enrollmentsRoutes);
 app.get('/api/studentProfile/', (req, res) => res.sendFile(path.join(__dirname, '/static-assets/pages/studentGrades.html')));
 
 
+app.get('/error', (req, res) => res.sendFile(path.join(__dirname, '/static-assets/pages/404.html')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/index.html')));
+
 
 app.listen(port, () => console.log(`server is running on http://localhost:${port}`));
