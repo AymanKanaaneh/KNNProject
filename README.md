@@ -12,6 +12,6 @@ To run this project
 .4 The project now runnig in your server http://localhost:3000
 
 
-If you want to take a look only on our project, open ViewMe file
+If you just want to look at our project, open ViewMe file
 
 */
